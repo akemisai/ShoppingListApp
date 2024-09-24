@@ -3,6 +3,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.shoppinglistapp.ui.theme.ShoppingListAppTheme
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.LinearProgressIndicator
 
 
@@ -63,7 +65,14 @@ fun ShoppingListApp(modifier: Modifier = Modifier) {
     val checkedItems = shoppingList.count { it.isCheckedState }
     val progress = if (totalItems > 0) checkedItems.toFloat() / totalItems else 0f
 
-    Column(modifier = modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+
+    ) {
         TextField(
             value = name,
             onValueChange = { name = it },
@@ -74,6 +83,8 @@ fun ShoppingListApp(modifier: Modifier = Modifier) {
             onValueChange = { quantity = it },
             label = { Text("Enter item quantity") }
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         ElevatedButton(
             onClick = {
@@ -88,6 +99,8 @@ fun ShoppingListApp(modifier: Modifier = Modifier) {
             Text("Add")
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         Text(text = "Checked items: $checkedItems/$totalItems")
         LinearProgressIndicator(
             progress = { progress },
@@ -95,7 +108,7 @@ fun ShoppingListApp(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
         )
-        
+
         LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
             items(shoppingList) { shoppingItem ->
                 Row(
